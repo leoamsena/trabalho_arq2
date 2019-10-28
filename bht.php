@@ -26,7 +26,7 @@ for ($i = 0; $i < pow(2, $n); $i++) { // vão existir 2^n
 $miss = 0;
 foreach ($entradas as $e => $desvio) { // foreach para cada desvio
     $real = ($desvio == "t") ? true : false; // se "t" então foi tomado (real = true) senão real = false
-    $lsb = str_pad(substr(decbin($e), -1 * $m), $m, 0, STR_PAD_LEFT); // pega os $m bits menos significativos do $e (PC do desvio)
+    $lsb = str_pad(substr(decbin($e), -1 * $m), $m, 0, STR_PAD_LEFT); // pega os $m bits menos significativos do $e (PC do desvio) VERIFICAR QUESTÃO COM PROFESSOR
     if ($contador[$historico[$lsb]] >= 2) { // se historico >= 2 então predição é = tomado
         echo "ACHO QUE VAI TOMAR <br/>";
         $predicao = true;
