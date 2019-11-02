@@ -35,10 +35,10 @@ $json = bht($n, $m, $trace);
                 <input type="text" value="" class="form-control" id="inpReal" disabled />
             </div>
             <div class="col">
-                <table class="table table-bordered">
+                <table class="table table-bordered" id="tabelaHist">
                     <thead>
                         <tr>
-                            <th scope="col">Index</th>
+                            <th scope="col" id="thIndex">Index</th>
                             <th scope="col">Historico</th>
                             <th scope="col">Predição</th>
                             <th scope="col">Acertos</th>
@@ -82,6 +82,7 @@ $json = bht($n, $m, $trace);
     </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="../assets/js/sortTableFinal.js"></script>
 <script type="text/javascript">
     var json = <?= $json ?>;
     var tabelaHistorico = "";
@@ -110,6 +111,7 @@ $json = bht($n, $m, $trace);
 
     function atualiza() {
         preencheHistorico(json.historico[int], json.predicao[int], json.lsb[int - 1], json.acertos[int], json.erros[int], json.acertou[int - 1], json.entradas[int - 1]);
+        sortTable("tabelaHist");
         if (int == max) { // se final preenche tabela final
             $("#final").show();
         } else {
