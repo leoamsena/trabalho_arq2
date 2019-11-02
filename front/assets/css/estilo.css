@@ -1,0 +1,26 @@
+body {
+  background-image: linear-gradient(to right, #136A8A, #267871);
+}
+
+.big-opa {
+  font-size: 7.5em;
+  font-weight: bold;
+}
+
+.words-style {
+  color: white;
+}
+
+table {
+  color: white !important;
+}
+
+hr {
+  color: white;
+  background-color: white;
+  height: 5px;
+}
+
+.selectL {
+  background-color: red;
+}
