@@ -21,6 +21,10 @@ hr {
   height: 5px;
 }
 
-.selectL {
+.selectA {
+  background-color: green;
+}
+
+.selectE {
   background-color: red;
 }

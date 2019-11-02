@@ -4,8 +4,9 @@ $n = $_POST['n'];
 $m = $_POST['m'];
 $trace = explode("\n", file_get_contents($_FILES['trace']['tmp_name']));
 $json = bht($n, $m, $trace);
-?>
 
+?>
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -26,12 +27,23 @@ $json = bht($n, $m, $trace);
     <div class="d-flex h2 justify-content-center words-style mt-5">
         <div class="row mt-3">
             <div class="col">
+                Instrução: <br />
+                <input type="text" value="" class="form-control" id="inpInstrucao" disabled />
+                Index: <br />
+                <input type="text" value="" class="form-control" id="inpIndex" disabled />
+                Branch foi: <br />
+                <input type="text" value="" class="form-control" id="inpReal" disabled />
+            </div>
+            <div class="col">
                 <table class="table table-bordered">
                     <thead>
                         <tr>
                             <th scope="col">Index</th>
                             <th scope="col">Historico</th>
                             <th scope="col">Predição</th>
+                            <th scope="col">Acertos</th>
+                            <th scope="col">Erros</th>
+
                         </tr>
                     </thead>
                     <tbody id="thistorico">
@@ -48,9 +60,21 @@ $json = bht($n, $m, $trace);
             </div>
 
             <div class="col">
-                <button class="btn btn-primary" onclick="javascript:atualiza()">Next</button>
+                <button class="btn btn-primary" onclick="javascript:prev()">Prev</button>
+                <button class="btn btn-primary" onclick="javascript:next()">Next</button>
+                <button class="btn btn-primary" onclick="javascript:fast()">Fast</button>
+                <button class="btn btn-primary" onclick="javascript:start()">Reset</button>
             </div>
-
+            <div class="col" id="final">
+                Número de miss:<br />
+                <input type="text" class="form-control" id="nmiss" disabled />
+                Número de branchs:<br />
+                <input type="text" class="form-control" id="ntotal" disabled />
+                Precisão:<br />
+                <input type="text" class="form-control" id="precisao" disabled />
+                Taxa de miss:<br />
+                <input type="text" class="form-control" id="tmiss" disabled />
+            </div>
 
 
 
@@ -62,22 +86,65 @@ $json = bht($n, $m, $trace);
     var json = <?= $json ?>;
     var tabelaHistorico = "";
     var int = -1;
-    var max = json.historico.length;
-    atualiza();
+    var max = json.historico.length - 1;
+    next();
+    preencheFinal(json.miss, json.total, json.precisao, json.taxamiss);
+
+    function start() {
+        int = 0;
+        atualiza();
+    }
+
+    function fast() {
+        int = max;
+        atualiza();
+    }
+
+    function prev() {
+        if (int > 0) {
+            int--;
+            atualiza();
+        }
+
+    }
 
     function atualiza() {
-        if (int < max) {
-            int++;
-            preencheHistorico(json.historico[int], json.predicao[int], json.lsb[int - 1]);
+        preencheHistorico(json.historico[int], json.predicao[int], json.lsb[int - 1], json.acertos[int], json.erros[int], json.acertou[int - 1], json.entradas[int - 1]);
+        if (int == max) { // se final preenche tabela final
+            $("#final").show();
+        } else {
+            $("#final").hide();
         }
     }
 
-    function preencheHistorico(array, predicao, lsb) {
-        console.log(array);
+    function preencheFinal(miss, total, precisao, taxamiss) {
+        $("#ntotal").val(total);
+        $("#nmiss").val(miss);
+        $("#precisao").val(precisao.toFixed(2) + "%");
+        $("#tmiss").val(taxamiss.toFixed(2) + "%");
+
+    }
+
+    function next() {
+        if (int < max) {
+            int++;
+            atualiza();
+        }
+    }
+
+
+    function preencheHistorico(array, predicao, lsb, acertos, erros, acertou, entrada) {
+
         var string = "";
+        $("#inpInstrucao").val((entrada != null) ? (entrada[0]).toString(16) : "");
+        $("#inpIndex").val((lsb != null) ? lsb : "");
+        $("#inpReal").val((entrada != null) ? entrada[1] : "");
+
         for (var bits in array) {
-            string += (bits == lsb) ? "<tr class='selectL'>" : "<tr>";
-            string += "<td>" + bits + "</td><td>" + array[bits] + "</td><td>" + ((predicao) ? "T" : "N") + "</td>";
+            //console.log("BITS = " + bits + " predicao[bits] = " + predicao[bits]);
+            classe = (acertou) ? "A" : "E";
+            string += (bits == lsb) ? "<tr class='select" + classe + "'>" : "<tr>";
+            string += "<td>" + bits + "</td><td>" + array[bits] + "</td><td>" + ((predicao[bits] == true) ? "T" : "N") + "</td><td>" + acertos[bits] + "</td><td>" + erros[bits] + "</td>";
             string += "</tr>";
         }
 
