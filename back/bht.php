@@ -1,23 +1,34 @@
 <?php
-function bht($n, $m, $trace)
+
+/**
+ * Simulação de preditor BHT.
+ *
+ * Através da entrada dos parâmetros corretos esta função retorna um JSON contendo o passo a passo
+ * das etapas de um preditor BHT, contendo a tabela de predição, se a predição foi acertada ou não, etc.
+ *
+ * @param int $n Número de bits que o histórico vai registrar
+ * @param int $m Número de bits (LSB) que serão usados para indexar a tebala de histórico
+ * @param array $trace Array contendo todo o trace, cada linha => <endereco_de_PC_em_hexadecima> <T/N> 
+ *
+ * @return string Retorna um json contendo todos os passos do simulador BHT
+ */
+function bht($n, $m, $trace) // $m = quantidade de LSBs que serão usados para indexar a tabela de histórico || $n = número de bits de histórico || $trace = 
 {
-    //Parametros
-    $json = array();
-    //$n = $_POST['n'];
-    //$m = $_POST['m'];
-    //$trace = explode("\n", file_get_contents($_FILES['trace']['tmp_name']));
+    $json = array(); // array json que será usado no retorno da função
 
 
 
-    foreach ($trace as $key => $t) {
-        $parte = explode(" ", $t);
-        if (!empty($parte[0])) {
-            $parte[0] = hexdec($parte[0]);
-            $parte[1] = str_replace("\r", "", $parte[1]);
-            $trace[$key] = $parte;
+    foreach ($trace as $key => $t) { // foreach que rodará todas as linhas do trace
+        $parte = explode(" ", $t); // separa os espaços de cada linha do trace e coloca em $parte
+        if (!empty($parte[0])) { // se for um endereço válido
+            $parte[0] = hexdec($parte[0]); // primeira posição de $parte recebe o número de PC
+            $parte[1] = str_replace("\r", "", $parte[1]); // segunda posição recebe <T/N>
+            $trace[$key] = $parte; // $trace na posição dos LSBs do PC recebe $parte
         }
     }
-    $entradas = $trace;
+    $entradas = $trace; // entradas do preditor devem ser o trace 
+
+    // Definição de cada uma das posições do array de json
     $json["entradas"] = $entradas;
     $json["historico"] = array();
     $json["contador"] = array();
@@ -45,12 +56,12 @@ function bht($n, $m, $trace)
     for ($i = 0; $i < pow(2, $m); $i++) { // vão existir 2^m linhas na tabela de histórico
         $index = str_pad(decbin($i), $m, 0, STR_PAD_LEFT); // index = o valor de i em binário (completado com quantos zeros a esquerda forem necessários) 
         $historico[$index] = str_pad(decbin($n), $n, 0, STR_PAD_LEFT); // coloca N (com quantos zeros forem necessários a esquerda) no conteúdo de cada linha da tabela de histórico
-        $erros[$index] = 0;
-        $acertos[$index] = 0;
+        $erros[$index] = 0; // para incializar são 0 erros para aquela linha da tabela de histórico
+        $acertos[$index] = 0; // para incializar são 0 acertos para aquela linha da tabela de histórico
         $predicoes[$index] = $contador[str_pad(decbin($n), $n, 0, STR_PAD_LEFT)]; // começa como tomado
     }
 
-    $strHistorico = str_replace("1", "T,", $historico);
+    $strHistorico = str_replace("1", "T,", $historico); // conversão de 0 em N e 1 em T para exibição no front-end
     $strHistorico = str_replace("0", "N,", $strHistorico);
     $strHistorico = substr_replace($strHistorico, "", -1);
     array_push($json["historico"], $strHistorico);
@@ -77,7 +88,6 @@ function bht($n, $m, $trace)
             if ($contador[$historico[$lsb]] == true) { // se historico >= n predição é = tomado
                 $predicao = true;
             } else { // senão predição é não tomado 
-                //echo "HISTORICO[LSB] = " . $historico[$lsb] . " N TOMADO <br/>";
                 $predicao = false;
             }
 
@@ -85,43 +95,40 @@ function bht($n, $m, $trace)
 
             if ($predicao != $real) { // se predição diferente da realidade então aumenta a taxa de miss
                 $miss++;
-                $erros[$lsb]++;
+                $erros[$lsb]++; // aumenta o erro naquela posição da tabela
             } else {
-                $acertos[$lsb]++;
+                $acertos[$lsb]++; // aumenta os acertos naquela posição da tebala
             }
             $total++;
             if ($real) { // se desvio tomado
-                if (bindec($historico[$lsb]) < (pow(2, $n) - 1)) {
-                    $nbin = decbin(bindec($historico[$lsb]) + 1);
-                    $historico[$lsb] = str_pad($nbin, $n, 0, STR_PAD_LEFT);
+                if (bindec($historico[$lsb]) < (pow(2, $n) - 1)) { // se é possível representar o histórico daquela linha + 1 com a quantidade de n bits, então a soma é realizada (verificação de saturação do histórico)
+                    $nbin = decbin(bindec($historico[$lsb]) + 1); // soma mais um no histórico
+                    $historico[$lsb] = str_pad($nbin, $n, 0, STR_PAD_LEFT); // salva o novo histórico na posição correspondente
                 }
-            } else {
-                if (bindec($historico[$lsb]) > 0) {
-                    //echo "ERA = " . $historico[$lsb] . "<br/>";
-                    $nbin = decbin(bindec($historico[$lsb]) - 1);
-                    $historico[$lsb] = str_pad($nbin, $n, 0, STR_PAD_LEFT);
-                    //echo "AGORA = " . $historico[$lsb] . "<br/>";
+            } else { // se desvio não tomado
+                if (bindec($historico[$lsb]) > 0) { // se histórico maior que 0 (verificação de saturação de histórico)
+                    $nbin = decbin(bindec($historico[$lsb]) - 1); // subtrai um do histórico
+                    $historico[$lsb] = str_pad($nbin, $n, 0, STR_PAD_LEFT); // salva o novo histórico na posição correspondente
                 }
             }
-            // $historico[$lsb] .= ($real) ? "1" : "0"; // se desvio tomado muda a string do historico colocando um 1 no final ou um 0 caso não seja tomado
-            //$historico[$lsb] = substr($historico[$lsb], 1); // ainda como linha anterior (DUAS LINHAS DEVEM SEMPRE PERMANECEREM JUNTAS)
-            $strHistorico = str_replace("1", "T,", $historico);
+            $strHistorico = str_replace("1", "T,", $historico); // conversão de 0 em N e 1 em T para exibição no front-end
             $strHistorico = str_replace("0", "N,", $strHistorico);
             $strHistorico = substr_replace($strHistorico, "", -1);
-            array_push($json["acertou"], $predicao == $real);
-            array_push($json["historico"], $strHistorico);
-            array_push($json["acertos"], $acertos);
-            array_push($json["erros"], $erros);
-            array_push($json["predicao"], $predicoes);
+
+            array_push($json["acertou"], $predicao == $real); // salva no array de json se a predição foi correta
+            array_push($json["historico"], $strHistorico); // salva no histórico a atual situação da tabela de histótico
+            array_push($json["acertos"], $acertos); // salva no array de json a quantidade de acertos (por linha da tabela)
+            array_push($json["erros"], $erros); // salva a quantidade de erros por linha da tabela
+            array_push($json["predicao"], $predicoes); // salva qual a predição para aquele momento
             foreach ($historico as $k => $l) {
                 $predicoes[$k] = $contador[$historico[$k]];
             }
         }
     }
 
-    $json["miss"] = $miss;
-    $json["total"] = $total;
-    $json["precisao"] = (($total - $miss) / $total) * 100;
-    $json["taxamiss"] = ($miss / $total) * 100;
-    return json_encode($json);
+    $json["miss"] = $miss; // qtd de miss total
+    $json["total"] = $total; // qtd de branchs totais
+    $json["precisao"] = (($total - $miss) / $total) * 100; // calculo de precisão de predição
+    $json["taxamiss"] = ($miss / $total) * 100; // calculo de taxa de miss
+    return json_encode($json); // retorna o array $json codificado para json
 }
