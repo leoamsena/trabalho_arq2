@@ -24,18 +24,26 @@ $json = bht($n, $m, $trace);
             Preditor Local
         </div>
     </div>
-    <div class="d-flex h2 justify-content-center words-style mt-5">
+    <div class="d-flex h3 justify-content-center words-style mt-5">
         <div class="row mt-3">
-            <div class="col">
-                Instrução: <br />
-                <input type="text" value="" class="form-control" id="inpInstrucao" disabled />
-                Index: <br />
-                <input type="text" value="" class="form-control" id="inpIndex" disabled />
-                Branch foi: <br />
-                <input type="text" value="" class="form-control" id="inpReal" disabled />
+
+            <div class="col-2">
+                <div class="row">
+                    Instrução: <br />
+                    <input type="text" value="" class="form-control" id="inpInstrucao" disabled />
+                </div>
+                <div class="row mt-4">
+                    Index: <br />
+                    <input type="text" value="" class="form-control" id="inpIndex" disabled />
+                </div>
+                <div class="row mt-4">
+                    Branch foi: <br />
+                    <input type="text" value="" class="form-control" id="inpReal" disabled />
+                </div>
             </div>
+
             <div class="col">
-                <table class="table table-bordered" id="tabelaHist">
+                <table class="table table-bordered ml-2" id="tabelaHist">
                     <thead>
                         <tr>
                             <th scope="col" id="thIndex">Index</th>
@@ -59,21 +67,38 @@ $json = bht($n, $m, $trace);
                 </table>
             </div>
 
-            <div class="col">
-                <button class="btn btn-primary" onclick="javascript:prev()">Prev</button>
-                <button class="btn btn-primary" onclick="javascript:next()">Next</button>
-                <button class="btn btn-primary" onclick="javascript:fast()">Fast</button>
-                <button class="btn btn-primary" onclick="javascript:start()">Reset</button>
+            <div class="col-1">
+                <div class="row">
+                    <button class="btn btn-primary botao" onclick="javascript:prev()">Prev</button>
+                </div>
+                <div class="row mt-4">
+                    <button class="btn btn-primary botao" onclick="javascript:next()">Next</button>
+                </div>
+                <div class="row mt-4">
+                    <button class="btn btn-primary botao" onclick="javascript:fast()">Fast</button>
+                </div>
+                <div class="row mt-4">
+                    <button class="btn btn-primary botao" onclick="javascript:start()">Reset</button>
+                </div>
             </div>
-            <div class="col" id="final">
-                Número de miss:<br />
-                <input type="text" class="form-control" id="nmiss" disabled />
-                Número de branchs:<br />
-                <input type="text" class="form-control" id="ntotal" disabled />
-                Precisão:<br />
-                <input type="text" class="form-control" id="precisao" disabled />
-                Taxa de miss:<br />
-                <input type="text" class="form-control" id="tmiss" disabled />
+
+            <div class="col-3 mb-5 ml-3" id="final">
+                <div class="row mb-2">
+                    Número de miss:<br />
+                    <input type="text" class="form-control" id="nmiss" disabled />
+                </div>
+                <div class="row mb-2">
+                    Número de branchs:<br />
+                    <input type="text" class="form-control" id="ntotal" disabled />
+                </div>
+                <div class="row mb-2">
+                    Precisão:<br />
+                    <input type="text" class="form-control" id="precisao" disabled />
+                </div>
+                 <div class="row mb-2">
+                    Taxa de miss:<br />
+                    <input type="text" class="form-control" id="tmiss" disabled />
+                </div>
             </div>
 
 

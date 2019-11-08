@@ -32,48 +32,49 @@
       </div>
     </div>
     <form action="local-second.php" method="POST" enctype="multipart/form-data">
-      <div class="d-flex h2 font-weight-light justify-content-end words-style">
-        <div class="row">
-          <div class="col">
-            <label for="trace">Arquivo de entrada(trace): </label>
-            <input type="file" class="form-control" id="trace" name="trace" />
-          </div>
+      <div class="h2 font-weight-light justify-content-end words-style">
+
+      	<div class="row flex-row justify-content-end">
+	          <div class="col-6">
+	            <label for="trace">Arquivo de entrada(trace): </label>
+	            <input type="file" class="form-control" id="trace" name="trace" />
+	          </div>
+	          <div class="w-100"></div>
+	          <div class="col-6">
+	            <label for="n">Parâmetro n</label>
+	            <input
+	              type="number"
+	              placeholder="n"
+	              class="form-control"
+	              id="n"
+	              name="n"
+	              min="1"
+	              max="2"
+	            />
+	          </div>
+	          <div class="w-100"></div>
+	          <div class="col-6">
+	            <label for="m">
+	              Parâmetro m
+	            </label>
+	            <input
+	              type="number"
+	              placeholder="n de bits menos significativos da tebela"
+	              min="1"
+	              max="6"
+	              class="form-control"
+	              id="m"
+	              name="m"
+	            />
+	          </div>
         </div>
-        <div class="row">
-          <div class="col">
-            <label for="n">Parâmetro n</label>
-            <input
-              type="number"
-              placeholder="n"
-              class="form-control"
-              id="n"
-              name="n"
-              min="1"
-              max="2"
-            />
-          </div>
+
+        <div class="row mt-3 float-right mr-3">
+        	<div class="col-10">
+	            <button type="submit" class="btn btn-primary botao-1">Enviar</button>
+	        </div>
         </div>
-        <div class="row">
-          <div class="col">
-            <label for="m">
-              Parâmetro m
-            </label>
-            <input
-              type="number"
-              placeholder="n de bits menos significativos da tebela"
-              min="1"
-              max="6"
-              class="form-control"
-              id="m"
-              name="m"
-            />
-          </div>
-        </div>
-        <div class="row">
-          <div class="col">
-            <button type="submit" class="btn btn-primary">Enviar</button>
-          </div>
-        </div>
+
       </div>
     </form>
   </body>
