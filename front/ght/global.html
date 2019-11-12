@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Preditores</title>
+    <meta charset="utf-8" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Montserrat&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" type="text/css" href="../assets/css/estilo.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+  </head>
+
+  <body class="container">
+    <div class="d-flex justify-content-start words-style mt-5">
+      <div class="row">
+        <a href="index.html">
+          <img
+            src="../assets/img/arrow.png"
+            style="width: 50px; height: 50px"
+          />
+        </a>
+      </div>
+    </div>
+    <div class="d-flex big-opa justify-content-end words-style mt-5">
+      <div class="row">
+        Parâmetros:
+      </div>
+    </div>
+    <form
+      action="global-second.php"
+      method="POST"
+      enctype="multipart/form-data"
+    >
+      <div class="h2 font-weight-light justify-content-end words-style">
+        <div class="row flex-row justify-content-end">
+          <div class="col-6">
+            <label for="trace">Arquivo de entrada(trace): </label>
+            <input type="file" class="form-control" id="trace" name="trace" />
+          </div>
+          <div class="w-100"></div>
+          <div class="col-6">
+            <label for="n">Parâmetro n</label>
+            <input
+              type="number"
+              class="form-control"
+              id="n"
+              name="n"
+              min="1"
+              max="2"
+            />
+          </div>
+          <div class="w-100"></div>
+          <div class="col-6">
+            <label for="m"> Parâmetro m </label>
+            <input
+              type="number"
+              min="1"
+              max="6"
+              class="form-control"
+              id="m"
+              name="m"
+            />
+          </div>
+          <div class="w-100"></div>
+          <div class="col-6">
+            <label for="g"> Parâmetro g </label>
+            <input type="number" class="form-control" id="g" name="g" />
+          </div>
+        </div>
+
+        <div class="row mt-3 float-right mr-3">
+          <div class="col-10">
+            <button type="submit" class="btn btn-primary botao-1">
+              Enviar
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </body>
+</html>
