@@ -1,0 +1,66 @@
+<html>
+	<head>
+		<title>Preditores</title>
+    	<meta charset="utf-8">
+		<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="assets/css/estilo.css">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	</head>
+
+  <body class="container">
+    <div class="d-flex justify-content-start words-style mt-5">
+      <div class="row">
+        <a href="index.html">
+          <img src="assets/img/arrow.png" style="width: 50px; height: 50px">
+        </a>
+      </div>
+    </div>
+    <div class="d-flex medium-opa justify-content-end words-style mt-5">
+      <div class="row">
+        Para, para, para tudo aí!
+      </div>
+    </div>
+    <div class="d-flex h1 justify-content-end words-style" style="font-weight: bold;">
+      <div class="row">
+        Você sabe o que são preditores?
+      </div>
+    </div>
+    <div class="d-flex h1 justify-content words-style">
+      <div class="row">
+        <p class="paragraph-text">
+        Preditores de desvios condicionais são usados em nível de hardware para prever se algum o programa vai cair em uma branch de código ou não. Neste programa, você poderá
+        simular três tipos de preditores passo a passo, os quais são explicados abaixo.
+        </p>
+      </div>
+    </div>
+    <div class="d-flex medium-opa justify-content-end words-style mt-5">
+      <div class="row">
+        Preditor Local
+      </div>
+    </div>
+    <div class="d-flex h1 justify-content words-style">
+      <div class="row">
+        <p class="paragraph-text">
+          Este preditor guarda um contador de 1 ou 2 bits (N) em cada posição de um vetor indexado pelos M bits menos significativos do PC da instrução.
+          No simulador, esses valores (M e N), são estipulados na primeira tela após escolher a opção de Preditor Local na tela inicial. Os contadores, por sua vez, são adicionados
+          1 quando o desvio for tomado e subtraidos o mesmo valor quando não tomados. Quanto estes chegam a 0 ou a 2^N - 1, são saturados, retornando (ou permanecendo) a 0.
+          O valor armazenado pelos contadores diz o que acontecerá na predição: se N = 1, 0 prediz não tomado e 1 tomado; se N = 2, 0 e 1 predizem não tomado, e 2 e 3 predizem tomado.
+        </p>
+      </div>
+    </div>
+    <div class="d-flex medium-opa justify-content-end words-style mt-5">
+      <div class="row">
+        Preditor Global
+      </div>
+    </div>
+    <div class="d-flex h1 justify-content words-style">
+      <div class="row">
+        <p class="paragraph-text">
+          Já este preditor possui um parâmetro a mais em relação ao Local, G diz a quantidade de bits que serão armazenados o histórico de desvios de todas as condicionais.
+          Por exemplo, 4 bits guardariam as 4 últimas decisões que o código tomou nas condições. Dessa forma ele concatena os M bits do PC com os G bits de histórico para indexar
+          a tabela de contadores, a qual tem o mesmo funcionamento da anterior.
+        </p>
+      </div>
+    </div>
+  </body>
+  </html>
