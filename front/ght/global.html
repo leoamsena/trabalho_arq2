@@ -36,12 +36,19 @@
       action="global-second.php"
       method="POST"
       enctype="multipart/form-data"
+      id="formGHT"
     >
       <div class="h2 font-weight-light justify-content-end words-style">
         <div class="row flex-row justify-content-end">
           <div class="col-6">
             <label for="trace">Arquivo de entrada(trace): </label>
-            <input type="file" class="form-control" id="trace" name="trace" />
+            <input
+              type="file"
+              class="form-control"
+              id="trace"
+              name="trace"
+              required
+            />
           </div>
           <div class="w-100"></div>
           <div class="col-6">
@@ -53,6 +60,7 @@
               name="n"
               min="1"
               max="2"
+              required
             />
           </div>
           <div class="w-100"></div>
@@ -65,6 +73,7 @@
               class="form-control"
               id="m"
               name="m"
+              required
             />
           </div>
           <div class="w-100"></div>
@@ -83,5 +92,27 @@
         </div>
       </div>
     </form>
+    <script src="../assets/js/jquery.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $("#formGHT").submit(function(event) {
+          event.preventDefault();
+          localStorage.setItem("n", $("#n").val());
+          localStorage.setItem("m", $("#m").val());
+          localStorage.setItem("g", $("#g").val());
+          var arq = $("#trace")[0].files[0];
+          var reader = new FileReader();
+          reader.readAsText(arq);
+          var resultado = "";
+          reader.onload = function(e) {
+            resultado = e.target.result;
+            localStorage.setItem("trace", resultado);
+
+            /*CHAMA PROXIMA PÁGINA!!!*/
+            window.document.location = "global-second.html";
+          };
+        });
+      });
+    </script>
   </body>
 </html>
