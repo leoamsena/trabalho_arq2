@@ -12,7 +12,7 @@
  *
  * @return string Retorna um json contendo todos os passos do simulador BHT
  */
-function ght($n, $m, $g, $trace) // $m = quantidade de LSBs que serão usados para indexar a tabela de histórico || $n = número de bits de histórico || $trace = 
+function ght($n, $m, $g, $trace, $int = 0) // $m = quantidade de LSBs que serão usados para indexar a tabela de histórico || $n = número de bits de histórico || $trace = 
 {
     $json = array(); // array json que será usado no retorno da função
 
@@ -61,16 +61,19 @@ function ght($n, $m, $g, $trace) // $m = quantidade de LSBs que serão usados pa
         $acertos[$index] = 0; // para incializar são 0 acertos para aquela linha da tabela de histórico
         $predicoes[$index] = $contador[str_pad(decbin($n), $n, 0, STR_PAD_LEFT)]; // começa como tomado
     }
-
-    $strHistorico = str_replace("1", "T,", $historico); // conversão de 0 em N e 1 em T para exibição no front-end
-    $strHistorico = str_replace("0", "N,", $strHistorico);
-    $strHistorico = substr_replace($strHistorico, "", -1);
-    array_push($json["historico"], $strHistorico);
-    array_push($json["acertos"], $acertos);
-    array_push($json["erros"], $erros);
-    array_push($json["contador"], $contador);
-    array_push($json["predicao"], $predicoes);
-
+    /* AQUI SE INT = 0 */
+    if ($int == 0) {
+        $strHistorico = str_replace("1", "T,", $historico); // conversão de 0 em N e 1 em T para exibição no front-end
+        $strHistorico = str_replace("0", "N,", $strHistorico);
+        $strHistorico = substr_replace($strHistorico, "", -1);
+        array_push($json["historico"], $strHistorico);
+        array_push($json["acertos"], $acertos);
+        array_push($json["erros"], $erros);
+        array_push($json["contador"], $contador);
+        array_push($json["predicao"], $predicoes);
+        return json_encode($json); // retorna o array $json codificado para json
+    }
+    /* AQUI SE INT = 0 */
 
     /* ----------------------------- CALCULOS ----------------------------- */
     $total = 0;
@@ -118,15 +121,21 @@ function ght($n, $m, $g, $trace) // $m = quantidade de LSBs que serão usados pa
             $strHistorico = str_replace("1", "T,", $historico); // conversão de 0 em N e 1 em T para exibição no front-end
             $strHistorico = str_replace("0", "N,", $strHistorico);
             $strHistorico = substr_replace($strHistorico, "", -1);
+            $predicaoTmp = $predicoes;
 
+            foreach ($historico as $k => $l) {
+                $predicoes[$k] = $contador[$historico[$k]];
+            }
+        }
+        if ($interacao == $int) {
             array_push($json["acertou"], $predicao == $real); // salva no array de json se a predição foi correta
             array_push($json["historico"], $strHistorico); // salva no histórico a atual situação da tabela de histórico
             array_push($json["acertos"], $acertos); // salva no array de json a quantidade de acertos (por linha da tabela)
             array_push($json["erros"], $erros); // salva a quantidade de erros por linha da tabela
-            array_push($json["predicao"], $predicoes); // salva qual a predição para aquele momento
-            foreach ($historico as $k => $l) {
-                $predicoes[$k] = $contador[$historico[$k]];
-            }
+            array_push($json["predicao"], $predicaoTmp); // salva qual a predição para aquele momento
+
+
+            break;
         }
     }
 
