@@ -37,6 +37,16 @@
             />
           </div>
           <div class="row mt-4">
+            Historico global: <br />
+            <input
+              type="text"
+              value=""
+              class="form-control"
+              id="histGlobal"
+              disabled
+            />
+          </div>
+          <div class="row mt-4">
             Index: <br />
             <input
               type="text"
@@ -146,7 +156,7 @@
           m: localStorage.getItem("m"),
           g: localStorage.getItem("g"),
           trace: localStorage.getItem("trace"),
-          inte: int
+          inte: int - 1
         },
         dataType: "JSON",
         error: function(obj) {
@@ -164,7 +174,8 @@
             obj.acertos[0],
             obj.erros[0],
             obj.acertou[0],
-            obj.entradas
+            obj.entradas,
+            obj.global
           );
           sortTable("tabelaHist");
           if (int == max) {
@@ -221,12 +232,14 @@
       acertos,
       erros,
       acertou,
-      entrada
+      entrada,
+      histGlobal
     ) {
       var string = "";
       $("#inpInstrucao").val(entrada != null ? entrada[0].toString(16) : "");
       $("#inpIndex").val(lsb != null ? lsb : "");
       $("#inpReal").val(entrada != null ? entrada[1] : "");
+      $("#histGlobal").val(histGlobal != null ? histGlobal : "");
 
       for (var bits in array) {
         //console.log("BITS = " + bits + " predicao[bits] = " + predicao[bits]);

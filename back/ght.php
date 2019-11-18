@@ -1,16 +1,18 @@
 <?php
 
 /**
- * Simulação de preditor BHT.
+ * Simulação de preditor GHT.
  *
  * Através da entrada dos parâmetros corretos esta função retorna um JSON contendo o passo a passo
- * das etapas de um preditor BHT, contendo a tabela de predição, se a predição foi acertada ou não, etc.
+ * das etapas de um preditor GHT, contendo a tabela de predição, se a predição foi acertada ou não, etc.
  *
  * @param int $n Número de bits que o histórico vai registrar
  * @param int $m Número de bits (LSB) que serão usados para indexar a tebala de histórico
+ * @param int $g Número de bits do histórico global
  * @param array $trace Array contendo todo o trace, cada linha => <endereco_de_PC_em_hexadecima> <T/N> 
+ * @param int|boolean $int Inteiro que representa a iteração que deseja-se obter (se -1 retorna a iteração inicial e se false retorna a última iteração)
  *
- * @return string Retorna um json contendo todos os passos do simulador BHT
+ * @return string Retorna um json contendo aquele passo 
  */
 function ght($n, $m, $g, $trace, $int = false) // $m = quantidade de LSBs que serão usados para indexar a tabela de histórico || $n = número de bits de histórico || $trace = 
 {
@@ -48,7 +50,6 @@ function ght($n, $m, $g, $trace, $int = false) // $m = quantidade de LSBs que se
     $acertos = array();
     $predicoes = array();
     $global_register = str_pad(0, $g, 0, STR_PAD_LEFT);
-
     // VÃO EXISTIR 2^N CONTADORES
     for ($j = 0; $j < pow(2, $n); $j++) { // vão existir 2^n 
         $index2 = str_pad(decbin($j), $n, 0, STR_PAD_LEFT); // index2 = o valor de i em binário (completado com quantos zeros a esquerda forem necessários) 
@@ -62,9 +63,9 @@ function ght($n, $m, $g, $trace, $int = false) // $m = quantidade de LSBs que se
         $acertos[$index] = 0; // para incializar são 0 acertos para aquela linha da tabela de histórico
         $predicoes[$index] = $contador[str_pad(decbin($n), $n, 0, STR_PAD_LEFT)]; // começa como tomado
     }
-    /* AQUI SE INT = 0 */
-    if ($int === 0) {
-        //$historico["entradas"] = array(array("", ""));
+    /* Se se deseja retorna a tabela antes de qualquer desvio*/
+    if ($int === -1) {
+        $json['global'] = $global_register;
         $strHistorico = str_replace("1", "T,", $historico); // conversão de 0 em N e 1 em T para exibição no front-end
         $strHistorico = str_replace("0", "N,", $strHistorico);
         $strHistorico = substr_replace($strHistorico, "", -1);
@@ -113,14 +114,32 @@ function ght($n, $m, $g, $trace, $int = false) // $m = quantidade de LSBs que se
                     $nbin = decbin(bindec($historico[$lsb]) + 1); // soma mais um no histórico
                     $historico[$lsb] = str_pad($nbin, $n, 0, STR_PAD_LEFT); // salva o novo histórico na posição correspondente
                 }
+                /*
+                if (bindec($global_register) < (pow(2, $g) - 1)) {
+                    $nbin2 = decbin(bindec($global_register) + 1);
+                    $global_register = str_pad($nbin2, $g, 0, STR_PAD_LEFT);
+                }
+                */
             } else { // se desvio não tomado
                 if (bindec($historico[$lsb]) > 0) { // se histórico maior que 0 (verificação de saturação de histórico)
                     $nbin = decbin(bindec($historico[$lsb]) - 1); // subtrai um do histórico
                     $historico[$lsb] = str_pad($nbin, $n, 0, STR_PAD_LEFT); // salva o novo histórico na posição correspondente
                 }
+                /*
+                if (bindec($global_register) > 0) {
+                    $nbin2 = decbin(bindec($global_register) - 1);
+                    $global_register = str_pad($nbin2, $g, 0, STR_PAD_LEFT);
+                }
+                */
             }
+
+
+
             $global_register .= $real ? "1" : "0";
             $global_register = substr($global_register, 1);
+
+
+
             $strHistorico = str_replace("1", "T,", $historico); // conversão de 0 em N e 1 em T para exibição no front-end
             $strHistorico = str_replace("0", "N,", $strHistorico);
             $strHistorico = substr_replace($strHistorico, "", -1);
@@ -128,6 +147,7 @@ function ght($n, $m, $g, $trace, $int = false) // $m = quantidade de LSBs que se
             if ($interacao === $int) {
                 $json["lsb"] =  $lsb;
                 $json["entradas"] = array($e, $desvio);
+                $json['global'] = $global_register;
                 array_push($json["acertou"], $predicao == $real); // salva no array de json se a predição foi correta
                 array_push($json["historico"], $strHistorico); // salva no histórico a atual situação da tabela de histórico
                 array_push($json["acertos"], $acertos); // salva no array de json a quantidade de acertos (por linha da tabela)
@@ -151,6 +171,7 @@ function ght($n, $m, $g, $trace, $int = false) // $m = quantidade de LSBs que se
     array_push($json["erros"], $erros); // salva a quantidade de erros por linha da tabela
     array_push($json["predicao"], $predicoes); // salva qual a predição para aquele momento
 
+    $json['global'] = $global_register;
     $json["miss"] = $miss; // qtd de miss total
     $json["total"] = $total; // qtd de branchs totais
     $json["precisao"] = (($total - $miss) / $total) * 100; // calculo de precisão de predição
