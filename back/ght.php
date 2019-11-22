@@ -90,7 +90,10 @@ function ght($n, $m, $g, $trace, $int = false) // $m = quantidade de LSBs que se
             $desvio = strtoupper($linha[1]); // desvio recebe a string "t" ou "n"
             $e = $linha[0]; // e recebe o endereço de PC
             $real = ($desvio == "T") ? true : false; // se "t" então foi tomado (real = true) senão real = false
-            $lsb = substr(decbin($e), -1 * $m); // pega os $m bits menos significativos do $e (PC do desvio)
+            /* A LINHA ABAIXO AUMENTA O NÚMERO DE MISS */
+            $eTmp = substr(decbin($e), 0, -2); // descola dois bits (shift)
+            /* A LINHA ABAIXO ACIMA O NÚMERO DE MISS */
+            $lsb = substr($eTmp, -1 * $m); // pega os $m bits menos significativos do $e (PC do desvio)
             $lsb .= $global_register;
             $lsb = str_pad($lsb, $m * $g, 0, STR_PAD_LEFT);
 

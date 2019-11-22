@@ -77,6 +77,7 @@
                 <th scope="col">Predição</th>
                 <th scope="col">Acertos</th>
                 <th scope="col">Erros</th>
+                <th scope="col">Precisão</th>
               </tr>
             </thead>
             <tbody id="thistorico">
@@ -256,7 +257,12 @@
           acertos[bits] +
           "</td><td>" +
           erros[bits] +
+          "</td><td>" +
+          (erros[bits] + acertos[bits] != 0
+            ? ((acertos[bits] / (erros[bits] + acertos[bits])) * 100).toFixed(2)
+            : 100) +
           "</td>";
+
         string += "</tr>";
       }
 

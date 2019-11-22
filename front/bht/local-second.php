@@ -21,7 +21,7 @@ $json = bht($n, $m, $trace);
     <div class="d-flex justify-content-start words-style mt-5"></div>
     <div class="d-flex big-opa justify-content-end words-style mt-5">
         <div class="row">
-            Preditor Local
+            Preditor Global
         </div>
     </div>
     <div class="d-flex h3 justify-content-center words-style mt-5">
@@ -51,6 +51,7 @@ $json = bht($n, $m, $trace);
                             <th scope="col">Predição</th>
                             <th scope="col">Acertos</th>
                             <th scope="col">Erros</th>
+                            <th scope="col">Precisão</th>
 
                         </tr>
                     </thead>
@@ -95,7 +96,7 @@ $json = bht($n, $m, $trace);
                     Precisão:<br />
                     <input type="text" class="form-control" id="precisao" disabled />
                 </div>
-                 <div class="row mb-2">
+                <div class="row mb-2">
                     Taxa de miss:<br />
                     <input type="text" class="form-control" id="tmiss" disabled />
                 </div>
@@ -171,7 +172,7 @@ $json = bht($n, $m, $trace);
             //console.log("BITS = " + bits + " predicao[bits] = " + predicao[bits]);
             classe = (acertou) ? "A" : "E";
             string += (bits == lsb) ? "<tr class='select" + classe + "'>" : "<tr>";
-            string += "<td>" + bits + "</td><td>" + array[bits] + "</td><td>" + ((predicao[bits] == true) ? "T" : "N") + "</td><td>" + acertos[bits] + "</td><td>" + erros[bits] + "</td>";
+            string += "<td>" + bits + "</td><td>" + array[bits] + "</td><td>" + ((predicao[bits] == true) ? "T" : "N") + "</td><td>" + acertos[bits] + "</td><td>" + erros[bits] + "</td>" + "<td>" + ((acertos[bits] + erros[bits] != 0) ? ((acertos[bits] / (erros[bits] + acertos[bits])) * 100).toFixed(2) : (100)) + "</td>";
             string += "</tr>";
         }
 

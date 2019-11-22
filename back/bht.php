@@ -83,7 +83,12 @@ function bht($n, $m, $trace) // $m = quantidade de LSBs que serão usados para i
             $desvio = strtoupper($linha[1]); // desvio recebe a string "t" ou "n"
             $e = $linha[0]; // e recebe o endereço de PC
             $real = ($desvio == "T") ? true : false; // se "t" então foi tomado (real = true) senão real = false
-            $lsb = str_pad(substr(decbin($e), -1 * $m), $m, 0, STR_PAD_LEFT); // pega os $m bits menos significativos do $e (PC do desvio) VERIFICAR QUESTÃO COM PROFESSOR
+            /* A LINHA ABAIXO AUMENTA O NÚMERO DE MISS!!! */
+            $eTmp = substr(decbin($e), 0, -2); // ignora os dois ultimos bits (shift)
+            /* A LINHA ABAIXO ACIMA O NÚMERO DE MISS!!! */
+            $lsb = str_pad(substr($eTmp, -1 * $m), $m, 0, STR_PAD_LEFT); // pega os $m bits menos significativos do $e (PC do desvio) 
+
+
             array_push($json["lsb"], $lsb);
             if ($contador[$historico[$lsb]] == true) { // se historico >= n predição é = tomado
                 $predicao = true;
