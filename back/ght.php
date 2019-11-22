@@ -117,23 +117,11 @@ function ght($n, $m, $g, $trace, $int = false) // $m = quantidade de LSBs que se
                     $nbin = decbin(bindec($historico[$lsb]) + 1); // soma mais um no histórico
                     $historico[$lsb] = str_pad($nbin, $n, 0, STR_PAD_LEFT); // salva o novo histórico na posição correspondente
                 }
-                /*
-                if (bindec($global_register) < (pow(2, $g) - 1)) {
-                    $nbin2 = decbin(bindec($global_register) + 1);
-                    $global_register = str_pad($nbin2, $g, 0, STR_PAD_LEFT);
-                }
-                */
             } else { // se desvio não tomado
                 if (bindec($historico[$lsb]) > 0) { // se histórico maior que 0 (verificação de saturação de histórico)
                     $nbin = decbin(bindec($historico[$lsb]) - 1); // subtrai um do histórico
                     $historico[$lsb] = str_pad($nbin, $n, 0, STR_PAD_LEFT); // salva o novo histórico na posição correspondente
                 }
-                /*
-                if (bindec($global_register) > 0) {
-                    $nbin2 = decbin(bindec($global_register) - 1);
-                    $global_register = str_pad($nbin2, $g, 0, STR_PAD_LEFT);
-                }
-                */
             }
 
 
