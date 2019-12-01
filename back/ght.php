@@ -56,8 +56,8 @@ function ght($n, $m, $g, $trace, $int = false) // $m = quantidade de LSBs que se
         $contador[$index2] = ($j >= $n) ? true : false; // se index2 >= 2 então predição é tomado, senão é não tomado
     }
 
-    for ($i = 0; $i < pow(2, $m * $g); $i++) { // vão existir 2^(g*m) linhas na tabela de histórico
-        $index = str_pad(decbin($i), $m * $g, 0, STR_PAD_LEFT); // index = o valor de i em binário (completado com quantos zeros a esquerda forem necessários) 
+    for ($i = 0; $i < pow(2, $m + $g); $i++) { // vão existir 2^(g*m) linhas na tabela de histórico
+        $index = str_pad(decbin($i), $m + $g, 0, STR_PAD_LEFT); // index = o valor de i em binário (completado com quantos zeros a esquerda forem necessários) 
         $historico[$index] = str_pad(decbin($n), $n, 0, STR_PAD_LEFT); // coloca N (com quantos zeros forem necessários a esquerda) no conteúdo de cada linha da tabela de histórico
         $erros[$index] = 0; // para incializar são 0 erros para aquela linha da tabela de histórico
         $acertos[$index] = 0; // para incializar são 0 acertos para aquela linha da tabela de histórico
@@ -95,7 +95,7 @@ function ght($n, $m, $g, $trace, $int = false) // $m = quantidade de LSBs que se
             /* A LINHA ABAIXO ACIMA O NÚMERO DE MISS */
             $lsb = substr($eTmp, -1 * $m); // pega os $m bits menos significativos do $e (PC do desvio)
             $lsb .= $global_register;
-            $lsb = str_pad($lsb, $m * $g, 0, STR_PAD_LEFT);
+            $lsb = str_pad($lsb, $m + $g, 0, STR_PAD_LEFT);
 
             if ($contador[$historico[$lsb]] == true) { // se historico >= n predição é = tomado
                 $predicao = true;

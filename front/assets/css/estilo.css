@@ -1,10 +1,15 @@
 body {
-  background-image: linear-gradient(to right, #136A8A, #267871);
+  background-image: linear-gradient(to right, #e4e4e4, #e4e4e4);
 }
 
 .big-opa {
   font-size: 7.5em;
   font-weight: bold;
+}
+.esquerda{
+    position:fixed;
+    bottom:0;
+    left:0;
 }
 
 .medium-opa{
@@ -19,11 +24,11 @@ body {
 }
 
 .words-style {
-  color: white;
+  color: #00213F;
 }
 
 table {
-  color: white !important;
+  color: #00213F !important;
 }
 
 hr {
@@ -31,11 +36,9 @@ hr {
   background-color: white;
   height: 5px;
 }
-
 .selectA {
   background-color: green;
 }
-
 .selectE {
   background-color: red;
 }
@@ -46,4 +49,8 @@ hr {
 
 .botao-1 {
   width: 200%;
+}
+
+.cor-botao{
+  background-color: #007bff !important; 
 }
