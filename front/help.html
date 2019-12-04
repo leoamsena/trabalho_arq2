@@ -43,7 +43,7 @@
         <p class="paragraph-text">
           Este preditor guarda um contador de 1 ou 2 bits (N) em cada posição de um vetor indexado pelos M bits menos significativos do PC da instrução.
           No simulador, esses valores (M e N), são estipulados na primeira tela após escolher a opção de Preditor Local na tela inicial. Os contadores, por sua vez, são adicionados
-          1 quando o desvio for tomado e subtraidos o mesmo valor quando não tomados. Quanto estes chegam a 0 ou a 2^N - 1, são saturados, retornando (ou permanecendo) a 0.
+          1 quando o desvio for tomado e subtraídos o mesmo valor quando não tomados. Quanto estes chegam a 0 ou a 2^N - 1, são saturados, e assim, permanecem no mesmo valor.
           O valor armazenado pelos contadores diz o que acontecerá na predição: se N = 1, 0 prediz não tomado e 1 tomado; se N = 2, 0 e 1 predizem não tomado, e 2 e 3 predizem tomado.
         </p>
       </div>

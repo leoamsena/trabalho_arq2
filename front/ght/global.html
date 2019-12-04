@@ -49,26 +49,26 @@
 	          </div>
 	   </div>
 	   </br>
-	          <div class="row">
-	           <div class="col-4">
+	    <div class="row">
+	        <div class="col-4">
 	            <label for="n">Parâmetro n</label>
-	            <input
-	              type="number"
-	              placeholder="n"
-	              class="form-control"
-	              id="n"
-	              name="n"
-	              min="1"
-	              max="2"
-	            />
-	          </div>
+	              <input
+    	              type="number"
+    	              placeholder="nº de bits do preditor"
+    	              class="form-control"
+    	              id="n"
+    	              name="n"
+    	              min="1"
+    	              max="2"
+	             />
+	         </div>
 	        <div class="col-4">
 	            <label for="m">
 	              Parâmetro m
 	            </label>
 	            <input
 	              type="number"
-	              placeholder="n de bits menos significativos da tebela"
+	              placeholder="nº de bits menos significativos do PC"
 	              min="1"
 	              max="6"
 	              class="form-control"
@@ -79,7 +79,12 @@
           <div class="w-100"></br></div>
           <div class="col-6">
             <label for="g"> Parâmetro g </label>
-            <input type="number" class="form-control" id="g" name="g" />
+            <input 
+            type="number"
+             placeholder="nº de bits do histórico global"
+            class="form-control" 
+            id="g" 
+            name="g" />
           </div>
         </div>
         </div>
@@ -115,5 +120,6 @@
         });
       });
     </script>
+    </br>
   </body>
 </html>

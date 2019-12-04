@@ -61,6 +61,14 @@ $json = bht($n, $m, $trace);
                     Branch foi:
                     <input type="text" value="" class="form-control" id="inpReal" disabled />
                 </div>
+                <div id="final">
+                <div class = col>
+                    </br>
+                    <button type="button" class="btn btn-info btn-lg mb-5" data-toggle="modal" data-target="#myModal">
+                Ver dados finais
+            </button>
+                </div>
+                </div>
             </div>
             </div>
         
@@ -70,7 +78,7 @@ $json = bht($n, $m, $trace);
                     <thead>
                         <tr>
                             <th scope="col" id="thIndex">Index</th>
-                            <th scope="col">Historico</th>
+                            <th scope="col">Histórico</th>
                             <th scope="col">Predição</th>
                             <th scope="col">Acertos</th>
                             <th scope="col">Erros</th>
@@ -94,9 +102,7 @@ $json = bht($n, $m, $trace);
     </div>
      <div id="final">
          <!-- Trigger the modal with a button -->
-            <button type="button" class="btn btn-info btn-lg mb-5" data-toggle="modal" data-target="#myModal">
-                Ver dados finais
-            </button>
+            
             
             <!-- Modal -->
             <div id="myModal" class="modal fade" role="dialog">
@@ -112,7 +118,7 @@ $json = bht($n, $m, $trace);
                     <p>
                         <div class="col-11 mb-5 ml-3" id="final">
                           <div class="row mb-2">
-                            Número de miss:<br />
+                            Número de erros:<br />
                             <input type="text" class="form-control" id="nmiss" disabled />
                           </div>
                           <div class="row mb-2">
@@ -125,7 +131,7 @@ $json = bht($n, $m, $trace);
                             <input type="text" class="form-control" id="precisao" disabled />
                           </div>
                           <div class="row mb-2">
-                            Taxa de miss:<br />
+                            Taxa de erros:<br />
                             <input type="text" class="form-control" id="tmiss" disabled />
                           </div>
                         </div>
